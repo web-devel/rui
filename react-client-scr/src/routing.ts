@@ -22,6 +22,7 @@ import { AssociationM2MManagement } from "./app/associationM2M/AssociationM2MMan
 import { AssociationM2OManagement } from "./app/associationM2O/AssociationM2OManagement";
 import { AssociationO2MManagement } from "./app/associationO2M/AssociationO2MManagement";
 import { AssociationO2OManagement } from "./app/associationO2O/AssociationO2OManagement";
+import { HooksPOCManagement } from "./app/hooks-poc/HooksPOCManagement";
 import { DatatypesManagement3 } from "./app/datatypes-test3/DatatypesManagement3";
 import { DatatypesManagement2 } from "./app/datatypes-test2/DatatypesManagement2";
 import { DatatypesManagement1 } from "./app/datatypes-test1/DatatypesManagement1";
@@ -99,6 +100,13 @@ menuItems.push({
   menuLink: "/datatypesManagement3",
   component: DatatypesManagement3,
   caption: "DatatypesManagement3"
+});
+
+menuItems.push({
+  pathPattern: "/hooksPOCManagement/:entityId?",
+  menuLink: "/hooksPOCManagement",
+  component: HooksPOCManagement,
+  caption: "HooksPOCManagement"
 });
 
 menuItems.push({

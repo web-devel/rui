@@ -5,7 +5,7 @@ import { TechnicalCertificate } from "./scr$TechnicalCertificate";
 import { FileDescriptor } from "./base/sys$FileDescriptor";
 export class Car extends StandardEntity {
   static NAME = "scr$Car";
-  manufacturer222222?: string | null;
+  manufacturer?: string | null;
   model?: string | null;
   regNumber?: string | null;
   purchaseDate?: any | null;
@@ -25,7 +25,7 @@ export type CarView<V extends CarViewName> = V extends "_base"
   ? Pick<
       Car,
       | "id"
-      | "manufacturer222222"
+      | "manufacturer"
       | "model"
       | "regNumber"
       | "purchaseDate"
@@ -41,7 +41,7 @@ export type CarView<V extends CarViewName> = V extends "_base"
   ? Pick<
       Car,
       | "id"
-      | "manufacturer222222"
+      | "manufacturer"
       | "model"
       | "regNumber"
       | "purchaseDate"
@@ -54,12 +54,12 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "mileage"
     >
   : V extends "_minimal"
-  ? Pick<Car, "id" | "manufacturer222222" | "model">
+  ? Pick<Car, "id" | "manufacturer" | "model">
   : V extends "car-edit"
   ? Pick<
       Car,
       | "id"
-      | "manufacturer222222"
+      | "manufacturer"
       | "model"
       | "regNumber"
       | "purchaseDate"

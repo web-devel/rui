@@ -2,8 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { IReactionDisposer, reaction } from "mobx";
-
-import { Modal, Button, Card, Icon, message } from "antd";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { Modal, Button, Card, message } from "antd";
 
 import {
   collection,
@@ -107,7 +107,7 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
               StringIdMgtCardsManagement.NEW_SUBPATH
             }
           >
-            <Button htmlType="button" type="primary" icon="plus">
+            <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
               <span>
                 <FormattedMessage id="common.create" />
               </span>
@@ -126,8 +126,7 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
             key={e.id ? e.id : undefined}
             style={{ marginBottom: "12px" }}
             actions={[
-              <Icon
-                type="delete"
+              <DeleteOutlined
                 key="delete"
                 onClick={() => this.showDeletionDialog(e)}
               />,
@@ -135,7 +134,7 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
                 to={StringIdMgtCardsManagement.PATH + "/" + e.id}
                 key="edit"
               >
-                <Icon type="edit" />
+                <EditOutlined />
               </Link>
             ]}
           >
