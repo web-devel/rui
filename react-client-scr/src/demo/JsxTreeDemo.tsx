@@ -1,20 +1,25 @@
-import {Component, ReactNode} from "react";
+import * as React from "react";
+import {Component} from "react";
 import {Card, Form, Icon, Layout, Menu, Spin} from "antd";
 import AppHeader from "../app/header/AppHeader";
 import {NavLink, Route, Switch} from "react-router-dom";
 import {FormattedMessage} from "react-intl";
-import {menuItems} from "../routing";
 import HomePage from "../app/home/HomePage";
-import * as React from "react";
 import Centered from "../app/common/Centered";
-import {FormField} from "@cuba-platform/react-ui";
-import {Car} from "../cuba/entities/scr$Car";
 
 type Props = {
-  loading: string
+  loading: boolean
 }
 
-class ClassBasedComponent extends Component<Props, never> {
+
+export const FunctionalArrowComponent: React.FC = () => {
+  return <Card>
+    <Form>
+    </Form>
+  </Card>
+}
+
+export class ClassBasedComponent extends Component<Props, never> {
   render() {
     const {loading} = this.props;
     if (loading) {
@@ -49,24 +54,11 @@ class ClassBasedComponent extends Component<Props, never> {
               <Switch>
                 <Route exact={true} path="/" component={HomePage}/>
               </Switch>
-              <FunctionalComponent>sad</FunctionalComponent>
+              <FunctionalArrowComponent>sad</FunctionalArrowComponent>
             </Layout.Content>
           </Layout>
         </Layout>
       </Layout>
     );
   }
-}
-
-function FunctionalComponent(): React.FC {
-  return <Card>
-    <Form>
-      <FormField entityName={Car.NAME} propertyName={"manufacturer"}>
-      </FormField>
-    </Form>
-  </Card>
-}
-
-const FunctionalArrowComponent = () => {
-  return <div></div>
 }
