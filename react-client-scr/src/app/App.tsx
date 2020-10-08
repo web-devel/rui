@@ -59,6 +59,7 @@ class AppComponent extends React.Component<
             collapsedWidth={0}
             className="layout-sider"
           >
+
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
               <Menu.Item key={menuIdx}>
                 <NavLink to={"/"}>

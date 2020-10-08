@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Form, Alert, Button, Card, message } from "antd";
-import { FormInstance } from "antd/es/form";
-import { observer } from "mobx-react";
-import { CarManagement } from "./CarManagement";
-import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {Form, Alert, Button, Card, message, Avatar, Grid, Row, Col} from "antd";
+import {FormInstance} from "antd/es/form";
+import {observer} from "mobx-react";
+import {CarManagement} from "./CarManagement";
+import {Link, Redirect} from "react-router-dom";
+import {IReactionDisposer, observable, reaction, toJS} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -23,14 +23,14 @@ import {
   injectMainStore
 } from "@cuba-platform/react-core";
 
-import { Field, MultilineText, Spinner } from "@cuba-platform/react-ui";
+import {Field, MultilineText, Spinner} from "@cuba-platform/react-ui";
 
 import "../../app/App.css";
 
-import { Car } from "../../cuba/entities/scr$Car";
-import { Garage } from "../../cuba/entities/scr$Garage";
-import { TechnicalCertificate } from "../../cuba/entities/scr$TechnicalCertificate";
-import { FileDescriptor } from "../../cuba/entities/base/sys$FileDescriptor";
+import {Car} from "../../cuba/entities/scr$Car";
+import {Garage} from "../../cuba/entities/scr$Garage";
+import {TechnicalCertificate} from "../../cuba/entities/scr$TechnicalCertificate";
+import {FileDescriptor} from "../../cuba/entities/base/sys$FileDescriptor";
 
 type Props = EditorProps & MainStoreInjected;
 
@@ -45,6 +45,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
     view: "car-edit",
     loadImmediately: false
   });
+
 
   @observable garagesDc: DataCollectionStore<Garage> | undefined;
 
@@ -83,14 +84,14 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
   loadAssociationOptions = () => {
     // MainStore should exist at this point
     if (this.props.mainStore != null) {
-      const { getAttributePermission } = this.props.mainStore.security;
+      const {getAttributePermission} = this.props.mainStore.security;
 
       this.garagesDc = loadAssociationOptions(
         Car.NAME,
         "garage",
         Garage.NAME,
         getAttributePermission,
-        { view: "_minimal" }
+        {view: "_minimal"}
       );
 
       this.technicalCertificatesDc = loadAssociationOptions(
@@ -98,7 +99,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
         "technicalCertificate",
         TechnicalCertificate.NAME,
         getAttributePermission,
-        { view: "_minimal" }
+        {view: "_minimal"}
       );
 
       this.photosDc = loadAssociationOptions(
@@ -106,20 +107,20 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
         "photo",
         FileDescriptor.NAME,
         getAttributePermission,
-        { view: "_minimal" }
+        {view: "_minimal"}
       );
     }
   };
 
   handleFinishFailed = () => {
-    const { intl } = this.props;
+    const {intl} = this.props;
     message.error(
-      intl.formatMessage({ id: "management.editor.validationError" })
+      intl.formatMessage({id: "management.editor.validationError"})
     );
   };
 
   handleFinish = (values: { [field: string]: any }) => {
-    const { intl } = this.props;
+    const {intl} = this.props;
 
     if (this.formRef.current != null) {
       defaultHandleFinish(
@@ -128,7 +129,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
+      ).then(({success, globalErrors}) => {
         if (success) {
           this.updated = true;
         } else {
@@ -144,31 +145,31 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
 
   render() {
     if (this.updated) {
-      return <Redirect to={CarManagement.PATH} />;
+      return <Redirect to={CarManagement.PATH}/>;
     }
 
-    const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const {status, lastError, load} = this.dataInstance;
+    const {mainStore, entityId, intl} = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
-      return <Spinner />;
+      return <Spinner/>;
     }
 
     // do not stop on "COMMIT_ERROR" - it could be bean validation, so we should show fields with errors
     if (status === "ERROR" && lastError === "LOAD_ERROR") {
       return (
         <>
-          <FormattedMessage id="common.requestFailed" />.
-          <br />
-          <br />
+          <FormattedMessage id="common.requestFailed"/>.
+          <br/>
+          <br/>
           <Button htmlType="button" onClick={() => load(entityId)}>
-            <FormattedMessage id="common.retry" />
+            <FormattedMessage id="common.retry"/>
           </Button>
         </>
       );
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className="narrow-layout" >
         <Form
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
@@ -176,136 +177,135 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           ref={this.formRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
-          <Field
-            entityName={Car.NAME}
-            propertyName="manufacturer"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              rules: [{ required: true }]
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="manufacturer"
+                formItemProps={{
+                  style: {marginBottom: "12px"},
+                  rules: [{required: true}]
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="model"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="model"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="regNumber"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="regNumber"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="purchaseDate"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="purchaseDate"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="manufactureDate"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="manufactureDate"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="wheelOnRight"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              valuePropName: "checked"
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="wheelOnRight"
+                formItemProps={{
+                  style: {marginBottom: "12px"},
+                  valuePropName: "checked"
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="carType"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              rules: [{ required: true }]
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="carType"
+                formItemProps={{
+                  style: {marginBottom: "12px"},
+                  rules: [{required: true}]
+                }}
+              />
+              <Field
+                entityName={Car.NAME}
+                propertyName="ecoRank"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="ecoRank"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="maxPassengers"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="maxPassengers"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="price"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="price"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="mileage"
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="mileage"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="garage"
+                optionsContainer={this.garagesDc}
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="garage"
-            optionsContainer={this.garagesDc}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="technicalCertificate"
+                optionsContainer={this.technicalCertificatesDc}
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
-          <Field
-            entityName={Car.NAME}
-            propertyName="technicalCertificate"
-            optionsContainer={this.technicalCertificatesDc}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="photo"
-            optionsContainer={this.photosDc}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
+              <Field
+                entityName={Car.NAME}
+                propertyName="photo"
+                optionsContainer={this.photosDc}
+                formItemProps={{
+                  style: {marginBottom: "12px"}
+                }}
+              />
 
           {this.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(this.globalErrors)} />}
+              message={<MultilineText lines={toJS(this.globalErrors)}/>}
               type="error"
-              style={{ marginBottom: "24px" }}
+              style={{marginBottom: "24px"}}
             />
           )}
 
-          <Form.Item style={{ textAlign: "center" }}>
+          <Form.Item style={{textAlign: "center"}}>
             <Link to={CarManagement.PATH}>
               <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
+                <FormattedMessage id="common.cancel"/>
               </Button>
             </Link>
             <Button
@@ -313,9 +313,9 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
               htmlType="submit"
               disabled={status !== "DONE" && status !== "ERROR"}
               loading={status === "LOADING"}
-              style={{ marginLeft: "8px" }}
+              style={{marginLeft: "8px"}}
             >
-              <FormattedMessage id="common.submit" />
+              <FormattedMessage id="common.submit"/>
             </Button>
           </Form.Item>
         </Form>
@@ -334,12 +334,12 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
       reaction(
         () => this.dataInstance.status,
         () => {
-          const { intl } = this.props;
+          const {intl} = this.props;
           if (
             this.dataInstance.lastError != null &&
             this.dataInstance.lastError !== "COMMIT_ERROR"
           ) {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
+            message.error(intl.formatMessage({id: "common.requestFailed"}));
           }
         }
       )
@@ -356,7 +356,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
             permsReaction.dispose();
           }
         },
-        { fireImmediately: true }
+        {fireImmediately: true}
       )
     );
 
@@ -375,13 +375,13 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
                     this.dataInstance.getFieldValues(this.fields)
                   );
                 },
-                { fireImmediately: true }
+                {fireImmediately: true}
               )
             );
             formRefReaction.dispose();
           }
         },
-        { fireImmediately: true }
+        {fireImmediately: true}
       )
     );
   }
