@@ -31,6 +31,7 @@ import { CarManagement2 } from "./app/entity-management2/CarManagement2";
 import { CarManagement } from "./app/entity-management/CarManagement";
 import { FavoriteCars } from "./app/entity-cards/FavoriteCars";
 import { getMenuItems } from "@cuba-platform/react-core";
+import {CarBrowseGql} from "./app/car-browse-gql/CarBrowseGql";
 
 export const menuItems = getMenuItems();
 
@@ -52,6 +53,14 @@ const userSettingsSubMenu = {
 // Add sub menu item to menu config
 menuItems.push(userSettingsSubMenu);
 */
+
+
+menuItems.push({
+  pathPattern: '/cars-gql',
+  caption: "Cars",
+  component: CarBrowseGql,
+  menuLink: "/cars-gql"
+})
 
 menuItems.push({
   pathPattern: "/favoriteCars",

@@ -16,6 +16,7 @@ import {antdLocaleMapping, messagesMapping} from "./i18n/i18nMappings";
 import "moment/locale/ru";
 import "moment/locale/fr";
 import {DevSupport} from "./dev/Dev";
+import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 
 export const cubaREST = initializeApp({
   name: "scr",
@@ -27,19 +28,27 @@ export const cubaREST = initializeApp({
 });
 
 
+const client = new ApolloClient({
+  uri: 'http://localhost:3000/app-portal/graphql',
+  cache: new InMemoryCache()
+});
+
+
 ReactDOM.render(
-  <CubaAppProvider cubaREST={cubaREST}>
-    <I18nProvider
-      messagesMapping={messagesMapping}
-      antdLocaleMapping={antdLocaleMapping}
-    >
-      <HashRouter>
-        <DevSupport>
-          <Route component={App}/>
-        </DevSupport>
-      </HashRouter>
-    </I18nProvider>
-  </CubaAppProvider>,
+  <ApolloProvider client={client}>
+    <CubaAppProvider cubaREST={cubaREST}>
+      <I18nProvider
+        messagesMapping={messagesMapping}
+        antdLocaleMapping={antdLocaleMapping}
+      >
+        <HashRouter>
+          <DevSupport>
+            <Route component={App}/>
+          </DevSupport>
+        </HashRouter>
+      </I18nProvider>
+    </CubaAppProvider>
+  </ApolloProvider>,
   document.getElementById("root") as HTMLElement
 );
 // registerServiceWorker();

@@ -4,12 +4,13 @@ import {useMainStore} from "@cuba-platform/react-core";
 import {Spin} from "antd";
 import {DEV_MODE} from "../config";
 import {useObserver} from "mobx-react";
+import CarEdit2Component from "../app/entity-management2/CarEdit2";
 import CarEditComponent from "../app/entity-management/CarEdit";
 
 export const ComponentPreviews = () =>
   <Switch>
     <Route path="/car-edit">
-      <CarEditComponent entityId="new"/>
+      <CarEditComponent entityId={'new'} />
     </Route>
   </Switch>
 
